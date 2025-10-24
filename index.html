@@ -2,34 +2,271 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login Examen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Examen - Login</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #dc3545;
+            padding: 14px;
+            border-radius: 10px;
+            border-left: 4px solid #dc3545;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 25px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .form-control {
+                padding: 14px 16px 14px 45px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Iniciar sesión</h1>
-        <form id="loginForm">
-            <label>Usuario:</label>
-            <input type="text" name="username" id="username" required>
-            
-            <label>Contraseña:</label>
-            <input type="password" name="password" id="password" required>
-            
-            <button type="submit">Ingresar</button>
-        </form>
-        <p class="error" id="errorMsg"></p>
-
-        <div class="usuarios-demo">
-            <h3>Usuarios de prueba:</h3>
-            <p><strong>admin</strong> / 1234</p>
-            <p><strong>usuario1</strong> / abcd</p>
-            <p><strong>usuario2</strong> / password2</p>
-            <!-- Agrega más usuarios si quieres -->
+    <div class="login-container">
+        <div class="header">
+            <div class="logo">🎯</div>
+            <h1>Simulador de Examen</h1>
         </div>
+
+        <div class="error-message" id="errorMsg"></div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <div class="input-with-icon">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="username" class="form-control" placeholder="Ingresa tu usuario" required autocomplete="username">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <div class="input-with-icon">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span id="btnText">🎯 Ingresar al Examen</span>
+                <div class="loading" id="btnLoading">Cargando...</div>
+            </button>
+        </form>
     </div>
 
     <script>
-        // Usuarios válidos
+        // Configuración de usuarios válidos
         const usuarios = {
             "admin": "1234",
             "usuario1": "abcd",
@@ -52,26 +289,138 @@
             "usuario18": "password18"
         };
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('errorMsg');
+        // Elementos DOM
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnText = document.getElementById('btnText');
+        const btnLoading = document.getElementById('btnLoading');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+
+        // Mostrar estado de carga
+        function showLoading(show) {
+            if (show) {
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'block';
+                loginBtn.disabled = true;
+                loginBtn.style.opacity = '0.8';
+            } else {
+                btnText.style.display = 'block';
+                btnLoading.style.display = 'none';
+                loginBtn.disabled = false;
+                loginBtn.style.opacity = '1';
+            }
+        }
+
+        // Mostrar mensaje de error
+        function showError(message) {
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
             
-            if (usuarios[username] && usuarios[username] === password) {
-                // Guardar en localStorage y redirigir al examen
+            // Efecto de shake en el formulario
+            loginForm.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                loginForm.style.animation = '';
+            }, 500);
+        }
+
+        // Ocultar mensaje de error
+        function hideError() {
+            errorMsg.style.display = 'none';
+        }
+
+        // Validar credenciales
+        function validarCredenciales(username, password) {
+            if (!username || !password) {
+                return '❌ Por favor, completa todos los campos';
+            }
+            
+            if (!usuarios[username]) {
+                return '❌ Usuario no encontrado';
+            }
+            
+            if (usuarios[username] !== password) {
+                return '❌ Contraseña incorrecta';
+            }
+            
+            return null; // Sin errores
+        }
+
+        // Manejar envío del formulario
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Ocultar error anterior
+            hideError();
+            
+            // Validar credenciales
+            const error = validarCredenciales(username, password);
+            if (error) {
+                showError(error);
+                return;
+            }
+            
+            // Login exitoso
+            showLoading(true);
+            
+            // Simular proceso de autenticación
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1200));
+                
+                // Guardar en localStorage
                 localStorage.setItem('usuario', username);
                 localStorage.setItem('loggedIn', 'true');
+                
+                // Redirigir al examen
                 window.location.href = 'quiz.html';
-            } else {
-                errorMsg.textContent = 'Usuario o contraseña incorrectos';
+                
+            } catch (error) {
+                showLoading(false);
+                showError('❌ Error al iniciar sesión. Intenta nuevamente.');
             }
         });
 
-        // Verificar si ya está logueado
+        // Verificar si ya está logueado (redirección automática)
         if (localStorage.getItem('loggedIn') === 'true') {
             window.location.href = 'quiz.html';
         }
+
+        // Efecto de shake para errores
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-8px); }
+                50% { transform: translateX(8px); }
+                75% { transform: translateX(-8px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Auto-focus en el campo de usuario
+        usernameInput.focus();
+
+        // Limpiar error cuando el usuario empiece a escribir
+        usernameInput.addEventListener('input', hideError);
+        passwordInput.addEventListener('input', hideError);
+
+        // Efecto hover en inputs
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.input-icon').style.color = '#667eea';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.input-icon').style.color = '#7f8c8d';
+            });
+        });
+
+        console.log('✅ Sistema de login cargado correctamente');
     </script>
 </body>
 </html>
